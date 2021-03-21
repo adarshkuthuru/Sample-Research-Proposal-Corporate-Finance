@@ -1,0 +1,190 @@
+% $Id$
+\documentclass[11pt]{article}
+
+% DEFAULT PACKAGE SETUP
+
+\usepackage{setspace,graphicx,epstopdf,amsmath,amsfonts,amssymb,amsthm,versionPO}
+\usepackage{marginnote,datetime,enumitem,subfigure,rotating,fancyvrb}
+\usepackage{hyperref,float}
+\usepackage[longnamesfirst]{natbib}
+\usdate
+
+% These next lines allow including or excluding different versions of text
+% using versionPO.sty
+
+\excludeversion{notes}		% Include notes?
+\includeversion{links}          % Turn hyperlinks on?
+
+% Turn off hyperlinking if links is excluded
+\iflinks{}{\hypersetup{draft=true}}
+
+% Notes options
+\ifnotes{%
+\usepackage[margin=1in,paperwidth=10in,right=2.5in]{geometry}%
+\usepackage[textwidth=1.4in,shadow,colorinlistoftodos]{todonotes}%
+}{%
+\usepackage[margin=1in]{geometry}%
+\usepackage[disable]{todonotes}%
+}
+
+% Allow todonotes inside footnotes without blowing up LaTeX
+% Next command works but now notes can overlap. Instead, we'll define 
+% a special footnote note command that performs this redefinition.
+%\renewcommand{\marginpar}{\marginnote}%
+
+% Save original definition of \marginpar
+\let\oldmarginpar\marginpar
+
+% Workaround for todonotes problem with natbib (To Do list title comes out wrong)
+\makeatletter\let\chapter\@undefined\makeatother % Undefine \chapter for todonotes
+
+% Define note commands
+\newcommand{\smalltodo}[2][] {\todo[caption={#2}, size=\scriptsize, fancyline, #1] {\begin{spacing}{.5}#2\end{spacing}}}
+\newcommand{\rhs}[2][]{\smalltodo[color=green!30,#1]{{\bf RS:} #2}}
+\newcommand{\rhsnolist}[2][]{\smalltodo[nolist,color=green!30,#1]{{\bf RS:} #2}}
+\newcommand{\rhsfn}[2][]{%  To be used in footnotes (and in floats)
+\renewcommand{\marginpar}{\marginnote}%
+\smalltodo[color=green!30,#1]{{\bf RS:} #2}%
+\renewcommand{\marginpar}{\oldmarginpar}}
+%\newcommand{\textnote}[1]{\ifnotes{{\noindent\color{red}#1}}{}}
+\newcommand{\textnote}[1]{\ifnotes{{\colorbox{yellow}{{\color{red}#1}}}}{}}
+
+% Command to start a new page, starting on odd-numbered page if twoside option 
+% is selected above
+\newcommand{\clearRHS}{\clearpage\thispagestyle{empty}\cleardoublepage\thispagestyle{plain}}
+
+% Number paragraphs and subparagraphs and include them in TOC
+\setcounter{tocdepth}{2}
+
+% JF-specific includes:
+
+\usepackage{indentfirst} % Indent first sentence of a new section.
+\usepackage{endnotes}    % Use endnotes instead of footnotes
+\usepackage{jf}          % JF-specific formatting of sections, etc.
+\usepackage[labelfont=bf,labelsep=period, font=small]{caption}   % Format figure captions
+\captionsetup[table]{labelsep=none}
+
+% Define theorem-like commands and a few random function names.
+\newtheorem{condition}{CONDITION}
+\newtheorem{corollary}{COROLLARY}
+\newtheorem{proposition}{PROPOSITION}
+\newtheorem{obs}{OBSERVATION}
+\newcommand{\argmax}{\mathop{\rm arg\,max}}
+\newcommand{\sign}{\mathop{\rm sign}}
+\newcommand{\defeq}{\stackrel{\rm def}{=}}
+
+\title{\Large \bf The Effect of Special Purpose Acquisition Companies (SPACs) on Corporate Governance and the Real economy}
+\author{ADARSH KUTHURU}
+\date{\parbox{\linewidth}{\centering%
+  \today\endgraf\bigskip
+  \endgraf\medskip
+  PhD Student in Finance \endgraf
+  Boston College, United States}}
+  
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\bigskip
+\clearpage
+\tableofcontents
+
+\setlist{noitemsep}  % Reduce space between list items (itemize, enumerate, etc.)
+\onehalfspacing      % Use 1.5 spacing
+% Use endnotes instead of footnotes - redefine \footnote command
+\renewcommand{\footnote}{\endnote}  % Endnotes instead of footnotes
+
+\clearpage
+
+
+% Create title page with no page number
+\section{Abstract} \label{sec:Abs}
+In this paper, I intend to study the effects of Special Purpose Acquisition Companies (SPACs) on corporate governance and the real economy. The amount of capital raised through SPAC IPOs have increased from \$36 Million to \$65 Billion in just one decade. This shows how drastic the rise of SPACs is. Given this fast rate of their growth, the question that comes to mind is, how is it going to affect the firms and the economy as a whole. I intend to answer these questions by looking at the impact of SPACs on the corporate governance structures of the SPAC acquired firms. I also try to answer what their impact on real economy like firm productivity and labor welfare is.
+
+\section{Introduction} \label{sec:Intro}
+
+\subsection{Primer on SPACs}
+
+\paragraph{} According to the U.S. Security and Exchange Commission (SEC), SPACs are blank check companies which are characterized as companies with no specific business plan or commercial operations, or have mentioned in their business plans that they intend to engage in a merger or acquisition of an unidentified target firm. The sole purpose of their formation is to raise capital through an initial public offering (IPO). These companies are categorized as "penny stocks" or "microcap stocks" by the SEC. But as most of the modern SPACs have total net assets greater than \$5 million (a requirement to not be a penny stock), they are excluded from the additional scrutiny by the SEC.
+
+\begin{figure}[!htb] \label{fig:1}
+\centerline{\includegraphics[width=6in]{fig1.png}}
+\caption{SPAC IPO Transactions – Summary by Year.
+\textbf{Source: https://spacinsider.com/stats/}}
+\label{fig:1}
+\end{figure}
+
+
+\paragraph{} As seen in Fig (\ref{fig:1}), the amount of capital raised through SPAC IPOs have increased from \$36 Million to \$65 Billion in just one decade. This shows how drastic the rise of SPACs is. Given this fast rate of their growth, the question that comes to mind now is, how is it going to affect the firms and the broader economy. In this paper, I intend to answer these questions by looking at the impact of SPACs on the corporate governance structures of the SPAC acquired firms. I also try to answer what real effects they could have.
+
+
+\section{Data Description} \label{sec:Data}
+
+\paragraph{} The data on SPAC ownership, target, date of acquisition, daily stock and warrant prices etc. can be extracted from Standard and Poor's (S\&P) Capital IQ database. The details on the size of IPO, unit price, target industry, date of IPO, underwriters etc. can be extracted from SEC's S-1 filings from Electronic Data Gathering, Analysis, and Retrieval (EDGAR) database. The data points required to construct monitoring/corporate governance measures can be extracted from Center for Research in Security Prices (CRSP), Compustat, Institutional Shareholder Services (ISS). Longitudinal Business Database (LBD) contains identifiers for plants and
+information on ownership changes. The LBD tracks more than five million
+manufacturing and non-manufacturing units across the U.S. economy. The data points available in the database
+include the number of employees, annual payroll, industry classifications,
+geographical location etc. The plant-level productivity data can be obtained from the U.S. Census Bureau.
+
+
+\section{Methodology} \label{sec:method}
+
+\paragraph{} In this paper, I intend to establish two things. In the first section, I check how the intervening of SPACs affect the corporate governance structure of the firm. In the second part, I check how SPACs affect firm productivity and labor welfare. 
+
+
+\paragraph{} I follow the methodology of \cite{brav2015real} to establish the causal linkages between SPAC intervention and change in firms' corporate governance structure, productivity and labor welfare.
+
+\subsection{Effect of SPAC acquisitions on firm productivity}
+
+\paragraph{} The main measure of productivity I use is TFP which is the difference between actual and predicted output given the inputs. This is constructed as per the earlier literature (\cite{bertrand2003enjoying,brav2015real}).
+\begin{equation} \label{eq:1}
+\ln \left(Y_{i j t}\right)=\alpha_{j t}+\beta_{j t}^{K} \ln \left(K_{i j t}\right)+\beta_{j t}^{L} \ln \left(L_{i j t}\right)+\beta_{j t}^{M} \ln \left(M_{i j t}\right)+\varepsilon_{i j t}
+\end{equation}
+
+here, $\alpha_{j t}$ is the intercept which is at industry-year level; $Y_{i j t}$ is output (productivity); $K_{i j t}$
+is net capital stock; $L_{i j t}$ is labor input; $M_{i j t}$ represents material costs; and $\varepsilon_{i j t}$
+is the residual and the estimate of TFP for plant i in industry j in year t .
+
+\paragraph{} Now, I check the effect of SPACs on firm productivity using the below method (as per \cite{brav2015real}). This is a dynamic difference-in-differences method where the dummies correspond to plant-year dummy of treated firm from year t-5 to t+5 (firm is treated in year t). The control variables used here are the standard variables-firm size, plant age (as per \cite{schoar2002effects}). I also include plant and industry
+× year fixed effects ($\alpha_{i}$ and $\alpha_{j t}$) (as per \cite{gormley2014common,brav2015real}). Standard errors can be clustered at plant level.
+
+\begin{equation} \label{eq:2}
+y_{i t}=\sum_{k=-5}^{5} \gamma_{k} d_{i t}[t+k]+\lambda \text { Control }_{i t}+\alpha_{i}+\alpha_{j t}+\varepsilon_{i t}
+\end{equation}
+
+\paragraph{} It is unclear what kind of firms are targeted by SPACs. So firms may or may not indulge in restructuring activities in order to get targeted or escape from being targeted. The control group in the regression eq(\ref{eq:2}) can be found by using matching technique on the basis of characteristics in the year before the SPACs targeted the firm. As the selection of the target firms by SPACs may not be random, the selection bias can be eliminated by matching target firms with control group (see \cite{cremers2015hedge}). In order to account for survivorship bias, I use attrition dummy as per \cite{brav2015real}, which takes the value 1 if the targeted firm is delisted in the year (t+k) and 0 otherwise. Now, the regression equation looks like below.
+ 
+\begin{equation} \label{eq:3}
+y_{i t}=\sum_{k=-5}^{5} \gamma_{k} d_{i t}[t+k]*attrition[t+k] +
+\sum_{k=-5}^{5} \gamma_{k} d_{i t}[t+k]*non-attrition[t+k] + \lambda \text { Control }_{i t}+\alpha_{i}+\alpha_{j t}+\varepsilon_{i t}
+\end{equation}
+
+\subsection{Effect of SPAC acquisitions on labor welfare}
+
+\paragraph{} The indicators of labor welfare I use include wage levels, pension coverage, insurance coverage, severance benefits and average tenure etc. (see \cite{ninghua2012corporate}). These variables can be used as dependent variables in eq(\ref{eq:2}) \& eq(\ref{eq:3}) in order to study how SPAC intervention affects the welfare of labor.
+
+
+\subsection{Effect of SPAC acquisitions on corporate governance}
+
+\paragraph{} The indicators of corporate governance I use include E-Index, Board Indep, Remove PPill, Remove Restrict, Dual Class as per \cite{heath2020index}. E-Index is the entrenchment index of \cite{bebchuk2008elusive}. BoardIndep is the fraction of directors that are independent. Remove PPill equals 1 if a poison pill provision was removed or allowed to lapse. Remove Restrict equals 1 if a restriction on shareholders' ability to call a special meeting
+was removed or allowed to lapse. Dual Class equals 1 if the firm has a dual-class share structure. Each of these variables can be used as dependent variables in eq(\ref{eq:2}) \& eq(\ref{eq:3}) in order to study how SPAC intervention affects the governance structure. 
+
+\paragraph{} In this study however there could be external factors that discipline the managers and influence the governance mechanisms. In order to control for their effects, I use the control variables used by \cite{ninghua2012corporate}: firm’s domestic provincial market share, potential pressure from foreign production markets (share of exporting), pressure from the stock market (status of public listing), and firm financial characteristics (shares of equity and bank debt in total asset).
+
+\section{Conclusion} \label{concl}
+
+\paragraph{}
+
+This paper intends to study the impact of the intervention of SPACs on the corporate governance environment and the real economy. I hypothesize that if the corporate governance structure and the real outcomes like firm productivity get better, it will lead to the increase of the firms' long-term value. Therefore, I intend to examine how SPAC intervention affects firms' long-term value in the later part of this study.
+
+
+\clearpage
+% Bibliography.
+
+\begin{doublespacing}   % Double-space the bibliography
+\bibliographystyle{jf}
+\bibliography{bibliography}
+\end{doublespacing}
+
+\end{document}
+
